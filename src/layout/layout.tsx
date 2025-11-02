@@ -1,7 +1,9 @@
-import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { LayoutGrid, Menu, Package, ShoppingCart, X } from "lucide-react";
 import { useState } from "react";
+import { BillingPage } from "./page-components/BillingPage";
+import { CategoryPage } from "./page-components/CategoryPage";
+import { ProductPage } from "./page-components/ProductPage";
 
 const navigation = [
     { id: "billing" as const, lable: "Billing", icon: ShoppingCart },
@@ -13,18 +15,18 @@ type Page = "billing" | "categories" | "products";
 
 export const Layout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(true);
-    const [currenPage, setCurrentPage] = useState<Page>("billing");
+    const [currenPage, setCurrentPage] = useState<Page>("categories");
 
     const renderPage = () => {
         switch (currenPage) {
             case "billing":
-                return <div>Billing Page</div>;
+                return <BillingPage />
             case "categories":
-                return <div>Categories Page</div>;
+                return <CategoryPage />
             case "products":
-                return <div>Products Page</div>;
+                return <ProductPage />
             default:
-                return <div>Default Page - Billing Page</div>;
+                return <BillingPage />
         }
     };
 
@@ -60,7 +62,7 @@ export const Layout = () => {
                                     //     {item.lable}
                                     // </Button>
 
-                                    <Stack spacing={2} direction="column">
+                                    // <Stack spacing={2} direction="column">
                                         <Button
                                             key={item.id}
                                             variant={
@@ -92,12 +94,12 @@ export const Layout = () => {
                                             onClick={() =>
                                                 setCurrentPage(item.id)
                                             }
-                                            className="w-full gap-3 h-12"
+                                            className="w-full gap-3 h-12 m-8"
                                         >
                                             <Icon className="h-5 w-5" />
                                             {item.lable}
                                         </Button>
-                                    </Stack>
+                                    // </Stack>
                                 );
                             })}
                         </nav>
