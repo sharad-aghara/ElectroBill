@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/*
+  Example models — adjust fields/types as you need.
+  This matches a simplified set of your earlier models.
+*/
+model Category {
+  id     String  @id @default(cuid())
+  name   String
+  active Boolean @default(true)
+}
+
+model Product {
+  id         String  @id @default(cuid())
+  categoryId String
+  name       String
+  price      Float
+  active     Boolean @default(true)
+}
+
+model Choice {
+  id     String  @id @default(cuid())
+  name   String
+  price  Float
+  active Boolean @default(true)
+}
+
+model Extra {
+  id     String  @id @default(cuid())
+  name   String
+  price  Float
+  active Boolean @default(true)
+}
+
+model Color {
+  id     String  @id @default(cuid())
+  name   String
+  price  Float
+  active Boolean @default(true)
+}
+
+model GST {
+  id         String  @id @default(cuid())
+  name       String
+  percentage Float
+  active     Boolean @default(true)
+}
+
+model BusinessInfo {
+  id        String @id @default(cuid())
+  name      String
+  address   String
+  phone     String
+  email     String
+  gstNumber String
+}
+
+model Bill {
+  id            String   @id @default(cuid())
+  billNumber    String
+  date          DateTime
+  items         Json
+  subtotal      Float
+  gstPercentage Float
+  gstAmount     Float
+  total         Float
+}

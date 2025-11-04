@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 src/components/ui/*
+
+.env
+
+/generated/prisma
