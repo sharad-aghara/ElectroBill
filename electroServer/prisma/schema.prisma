@@ -11,6 +11,7 @@ datasource db {
   Example models — adjust fields/types as you need.
   This matches a simplified set of your earlier models.
 */
+
 model Category {
   id     String  @id @default(cuid())
   name   String

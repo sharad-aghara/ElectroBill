@@ -7,11 +7,24 @@
 
         // Environment Settings
         // See also https://aka.ms/tsconfig/module
-        "module": "nodenext",
-        "target": "esnext",
-        "types": [],
+        // "module": "NodeNext",
+        // "moduleResolution": "nodenext",
+        // "target": "esnext",
+        // "types": [],
+        // "esModuleInterop": true,
+        // "resolveJsonModule": true,
+        // "allowSyntheticDefaultImports": true,
+
+        "target": "ESNext",
+        "module": "NodeNext",
+        "moduleResolution": "nodenext",
         "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
+        "outDir": "dist",
+        "rootDir": "src",
+        "forceConsistentCasingInFileNames": true,
+
         // For nodejs:
         // "lib": ["esnext"],
         // "types": ["node"],
@@ -42,5 +55,7 @@
         "noUncheckedSideEffectImports": true,
         "moduleDetection": "force",
         "skipLibCheck": true
-    }
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "dist"]
 }
