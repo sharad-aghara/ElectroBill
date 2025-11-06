@@ -1,36 +1,35 @@
-import { type Category } from "@prisma/client";
+import type { Category } from "@prisma/client";
 import { prisma } from "../prisma/client.js";
 
 const list = async (): Promise<Category[]> => {
-    return prisma.Category.findMany({ orderBy: { name: "asc" } });
+    return prisma.category.findMany({ orderBy: { name: "asc" } });
 };
 
 const create = async (data: {
     name: string;
     active?: boolean;
 }): Promise<Category> => {
-    return prisma.Category.create({ data });
+    return prisma.category.create({ data });
 };
 
-const update = async (data: {
-    id: string;
-    name: string;
-    active: boolean;
-}): Promise<Category> => {
-    return prisma.update({
+const update = async (
+    id: string,
+    data: Partial<Pick<Category, "name" | "active">>
+): Promise<Category> => {
+    return prisma.category.update({
         where: {
-            id: data.id,
+            id,
         },
-        data: {
-            ...data,
-        },
+        data,
     });
 };
 
-const remove = async (data: { id: string }): Promise<Category> => {
-    return prisma.delete({
+const remove = async (
+    id: string
+): Promise<Category> => {
+    return prisma.category.delete({
         where: {
-            id: data.id,
+            id,
         },
     });
 };
