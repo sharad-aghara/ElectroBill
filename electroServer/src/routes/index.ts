@@ -1,6 +1,14 @@
-import categoryController from "../controllers/category.controller.js";
-import { validate } from "../middleware/validate.js";
-import { createCategorySchema } from "../validators/category.validator.js";
-import router from "./categories.js";
+import { Router } from "express";
+import categoryRouter from "./categories.js";
 
-router.post("/", validate(createCategorySchema), categoryController.create);
+const router = Router();
+
+// to test the server endpoint
+router.get("/health", (req, res) => {
+    res.json({ status: "OK", time: new Date().toISOString() });
+});
+
+// add sub-routes here
+router.use("/categories", categoryRouter);
+
+export default router;
