@@ -24,9 +24,7 @@ const update = async (
     });
 };
 
-const remove = async (
-    id: string
-): Promise<Category> => {
+const remove = async (id: string): Promise<Category> => {
     return prisma.category.delete({
         where: {
             id,

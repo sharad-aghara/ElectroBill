@@ -3,7 +3,6 @@ import categoryController from "../controllers/category.controller.js";
 import { validate } from "../middleware/validate.js";
 import {
     createCategorySchema,
-    deleteCategorySchema,
     updateCategorySchema,
 } from "../validators/category.validator.js";
 

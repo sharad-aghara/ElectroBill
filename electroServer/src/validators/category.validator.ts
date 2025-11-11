@@ -6,11 +6,6 @@ export const createCategorySchema = z.object({
 });
 
 export const updateCategorySchema = z.object({
-    id: z.string(),
-    name: z.string().min(3),
+    name: z.string().min(3).optional(),
     active: z.boolean().optional(),
-});
-
-export const deleteCategorySchema = z.object({
-    id: z.string()
 });
