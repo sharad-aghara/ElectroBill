@@ -166,7 +166,7 @@ export const CategoryPage: React.FC = () => {
                 <Dialog
                     open={isDilogOpen}
                     onClose={handleDilogClose}
-                    fullWidth="true"
+                    fullWidth={true}
                 >
                     <DialogTitle>
                         {editingCategory ? "Edit Category" : "Add Category"}
