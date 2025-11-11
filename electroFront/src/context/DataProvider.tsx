@@ -1,15 +1,18 @@
-import {
-    useEffect,
-    useState,
-    type FC,
-    type ReactNode
-} from "react";
+import apiRequest from "@/api";
+import { useEffect, useState, type FC, type ReactNode } from "react";
 import { DataContext } from "./DataContext";
-import type { Bill, BusinessInfo, Category, Choice, Color, Extra, GST, Product } from "./types";
+import type {
+    Bill,
+    BusinessInfo,
+    Category,
+    Choice,
+    Color,
+    Extra,
+    GST,
+    Product,
+} from "./types";
 
-export const DataProvider: FC<{ children: ReactNode }> = ({
-    children,
-}) => {
+export const DataProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [choices, setChoices] = useState<Choice[]>([]);
@@ -26,6 +29,7 @@ export const DataProvider: FC<{ children: ReactNode }> = ({
     const [bills, setBills] = useState<Bill[]>([]);
 
     //#region Load and Save to localStorage
+    /*
     useEffect(() => {
         const loadData = () => {
             const storedCategories = localStorage.getItem("categories");
@@ -50,9 +54,28 @@ export const DataProvider: FC<{ children: ReactNode }> = ({
 
         loadData();
     }, []);
+    */
+    //#endregion
+
+    //#region Load from development database file through api
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const data = await apiRequest<Category[]>("/categories", {
+                    method: "GET",
+                });
+                setCategories(data);
+            } catch (error) {
+                console.error("Failed to fetch categories:", error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
     //#endregion
 
     //#region Save to localStorage on data change
+    /*
     useEffect(() => {
         localStorage.setItem("categories", JSON.stringify(categories));
     }, [categories]);
@@ -77,10 +100,12 @@ export const DataProvider: FC<{ children: ReactNode }> = ({
     useEffect(() => {
         localStorage.setItem("bills", JSON.stringify(bills));
     }, [bills]);
+    */
     //#endregion
 
-    //#region CRUD Operations
-    // category CRUD
+    //#region CRUD Operations - local state management
+    /*
+    // category CRUD - local storage
     const addCategory = (category: Omit<Category, "id">) => {
         const newCategory = { ...category, id: Date.now().toString() };
         setCategories([...categories, newCategory]);
@@ -95,6 +120,7 @@ export const DataProvider: FC<{ children: ReactNode }> = ({
     const deleteCategory = (id: string) => {
         setCategories(categories.filter((c) => c.id !== id));
     };
+    */
 
     // Product CRUD
     const addProduct = (product: Omit<Product, "id">) => {
@@ -180,6 +206,54 @@ export const DataProvider: FC<{ children: ReactNode }> = ({
     };
     //#endregion
 
+    //#region CRUD Operations - to be implemented with API calls
+
+    // category CRUD
+    // category CRUD - development database file through api
+    const addCategory = async (category: Omit<Category, "id">) => {
+        try {
+            const newCategory = await apiRequest<Category>("/categories", {
+                method: "POST",
+                body: JSON.stringify(category),
+            });
+            setCategories([...categories, newCategory]);
+        } catch (error) {
+            console.error("Failed to add category:", error);
+        }
+    };
+
+    const updateCategory = async (
+        id: string,
+        category: Omit<Category, "id">
+    ) => {
+        try {
+            const updateData = await apiRequest<Category>("/categories/" + id, {
+                method: "PUT",
+                body: JSON.stringify(category),
+            });
+
+            setCategories((prev) =>
+                prev.map((c) => (c.id === id ? updateData : c))
+            );
+        } catch (error) {
+            console.error("Failed to update category:", error);
+        }
+    };
+
+    const deleteCategory = async (id: string) => {
+        try {
+            apiRequest<void>("/categories/" + id, {
+                method: "DELETE",
+            });
+
+            setCategories((prev) => prev.filter((c) => c.id !== id));
+        } catch (error) {
+            console.error("Failed to delete category:", error);
+        }
+    };
+
+    //#endregion
+
     //#region Return Provider
     return (
         <DataContext.Provider
@@ -215,7 +289,7 @@ export const DataProvider: FC<{ children: ReactNode }> = ({
             }}
         >
             {children}
-        </ DataContext.Provider>
+        </DataContext.Provider>
         // #endregion
     );
 };
