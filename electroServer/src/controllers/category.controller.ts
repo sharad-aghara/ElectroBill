@@ -25,9 +25,9 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 const update = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: string = req.params.id as string;
-        const data: Category = req.body;
+        const payload: Category = req.body;
 
-        const updated = await categoryService.update(id, data);
+        const updated = await categoryService.update(id, payload);
         res.status(201).json(updated);
     } catch (err) {
         next(err);
